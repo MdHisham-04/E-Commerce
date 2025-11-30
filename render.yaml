@@ -1,0 +1,35 @@
+services:
+  # Web Service
+  - type: web
+    name: ecommerce-api
+    env: go
+    buildCommand: go build -o app app/main.go
+    startCommand: ./app
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ecommerce-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: ecommerce-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: ecommerce-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: ecommerce-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: ecommerce-db
+          property: database
+
+databases:
+  # PostgreSQL Database
+  - name: ecommerce-db
+    databaseName: ecommerce
+    user: ecommerce_user
+
