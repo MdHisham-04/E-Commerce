@@ -14,12 +14,20 @@ import (
 
 // main function
 func main() {
+	// Log environment variables for debugging (without showing password)
+	log.Printf("Environment: DB_HOST=%s, DB_PORT=%s, DB_USER=%s, DB_NAME=%s",
+		getEnv("DB_HOST", "NOT_SET"),
+		getEnv("DB_PORT", "NOT_SET"),
+		getEnv("DB_USER", "NOT_SET"),
+		getEnv("DB_NAME", "NOT_SET"))
+
 	config := database.Config{
 		Host:     getEnv("DB_HOST", "localhost"),
 		Port:     getEnv("DB_PORT", "5432"),
 		User:     getEnv("DB_USER", "postgres"),
 		Password: getEnv("DB_PASSWORD", "postgres"),
 		DBName:   getEnv("DB_NAME", "ecommerce"),
+		SSLMode:  getEnv("DB_SSLMODE", "disable"),
 	}
 
 	if err := database.Connect(config); err != nil {

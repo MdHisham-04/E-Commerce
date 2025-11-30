@@ -17,14 +17,18 @@ type Config struct {
 	User     string
 	Password string
 	DBName   string
+	SSLMode  string
 }
 
 // Connect establishes a connection to the PostgreSQL database
 func Connect(config Config) error {
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		config.Host, config.User, config.Password, config.DBName, config.Port,
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		config.Host, config.User, config.Password, config.DBName, config.Port, config.SSLMode,
 	)
+
+	log.Printf("Attempting to connect to database: host=%s, port=%s, user=%s, dbname=%s, sslmode=%s",
+		config.Host, config.Port, config.User, config.DBName, config.SSLMode)
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

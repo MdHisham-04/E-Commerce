@@ -26,6 +26,10 @@ services:
         fromDatabase:
           name: ecommerce-db
           property: database
+      - key: DB_SSLMODE
+        value: require
+      - key: JWT_SECRET
+        generateValue: true
 
 databases:
   # PostgreSQL Database

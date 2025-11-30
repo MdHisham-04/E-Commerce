@@ -2,13 +2,24 @@ package auth
 
 import (
 	"errors"
+	"log"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// Change this to a secure random string in production
-var jwtSecret = []byte("your-secret-key-change-this-in-production")
+// jwtSecret is loaded from environment variable JWT_SECRET
+var jwtSecret = getJWTSecret()
+
+func getJWTSecret() []byte {
+	secret := os.Getenv("JWT_SECRET")
+	if secret == "" {
+		log.Println("WARNING: JWT_SECRET not set, using default (insecure for production)")
+		secret = "your-secret-key-change-this-in-production"
+	}
+	return []byte(secret)
+}
 
 type Claims struct {
 	UserID int    `json:"user_id"`
